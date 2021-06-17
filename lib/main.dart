@@ -22,11 +22,11 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   TextEditingController eCtrl = new TextEditingController();
   bool showTask = false;
-
   Widget build(BuildContext ctxt) {
     return new MaterialApp(
       home: new Scaffold(
         appBar: new AppBar(
+          backgroundColor: Color(0xFF395379),
           title: Text('ToDo'),
           actions: <Widget>[
             IconButton(
@@ -36,25 +36,79 @@ class MyAppState extends State<MyApp> {
               ),
               onPressed: () {
                 setState(() {
-                  if(!showTask){
-                    showTask = true;
-                  }else{
-                    showTask = false;
-                  }
+                  showTask = true;
                 });
                 print(showTask);
               },
             )
           ],
         ),
-        body: new Column(
-          children: <Widget>[
-            showTask == true
-                ? new AlertDialog(
-                    title: new Text("Task 1"),
-                  )
-                : new Text("")
-          ],
+        body: new SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              showTask == true
+                  ? new AlertDialog(
+                      title: new Text(
+                        "Add New Task",
+                        style: TextStyle(color: Colors.black54),
+                      ),
+                      content: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            cursorColor: Theme.of(context).cursorColor,
+                            maxLength: 4,
+                            decoration: InputDecoration(
+                              labelText: 'Task Number',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                color: Color(0xFF115CA3),
+                              ),
+                              suffixIcon: Icon(
+                                Icons.check_circle,
+                                size: 20,
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xFF115CA3)),
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            cursorColor: Theme.of(context).cursorColor,
+                            maxLength: 50,
+                            decoration: InputDecoration(
+                              labelText: 'Description',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                color: Color(0xFF115CA3),
+                              ),
+                              suffixIcon: Icon(
+                                Icons.check_circle,
+                                size: 20,
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xFF115CA3)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      actions: <Widget>[
+                        new FlatButton(
+                            color: Colors.green,
+                            onPressed: () {
+                              setState(() {
+                                showTask = false;
+                                eCtrl.clear();
+                              });
+                            },
+                            child: new Text("Save"))
+                      ],
+                    )
+                  : new Text("")
+            ],
+          ),
         ),
       ),
     );
